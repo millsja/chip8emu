@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <stdint.h>
-#include "../machine/registers.h"
+#include "../chip8emu/registers.h"
 #include "../operations/operations.h"
 #include "../asmio/asmio.h"
-
 
 int test_immediate_add()
 {

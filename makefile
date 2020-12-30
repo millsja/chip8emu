@@ -1,8 +1,8 @@
-OUTPUT = bin/sdl_test
+OUTPUT = bin/chip8emu
 CC_FLAGS = -Wall -Wextra -g -std=c11 -lSDL2
 CC = gcc 
 
-all:    obj/sdlr.o obj/main.o
+all:    obj/operations.o obj/asmio.o obj/sdlr.o obj/main.o
 	${CC} ${CC_FLAGS} -o $(OUTPUT) $^
 
 obj/sdlr.o:
@@ -12,15 +12,15 @@ obj/main.o: obj/sdlr.o
 	${CC} main.c ${CC_FLAGS} -c -o obj/main.o
 
 obj/asmio.o:
-	${CC} asmio.asmio.c ${CC_FLAGS} -c -o obj/asmio.o
+	${CC} asmio/asmio.c ${CC_FLAGS} -c -o obj/asmio.o
 
 obj/operations.o: asmio/asmio.o
 	${CC} operations/operations.c ${CC_FLAGS} -c -o obj/operations.o
 
-bin/ops_tests: asmio/asmio.o obj/operations.o
-	${CC} tests/ops_tests.c ${CC_FLAGS} -o bin/ops_tests $^
+bin/tests: obj/asmio.o obj/operations.o
+	${CC} tests/ops_tests.c ${CC_FLAGS} -o bin/tests $^
 
-tests: bin/ops_tests
+tests: bin/tests
 
 clean:
 	${RM} obj/*
