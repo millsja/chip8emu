@@ -5,8 +5,7 @@
 int push_pop_test()
 {
     uint16_t expected = 0x0a35;
-    struct stk_stack stack;
-    stack.top = -1;
+    struct stk_stack stack = stk_empty;
     stk_push(&stack, expected);
     uint16_t found = stk_pop(&stack);
 
