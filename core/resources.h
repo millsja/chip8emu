@@ -28,7 +28,7 @@ enum ch8_registers_enum
 struct ch8_resources
 {
     uint16_t registers[R_COUNT];
-    uint16_t** memory;
+    uint16_t* memory;
 };
 
 #endif

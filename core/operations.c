@@ -11,6 +11,12 @@ void ch8_add_imm(struct ch8_resources* resources, uint16_t address)
 	resources->registers[dest] = resources->registers[dest] + immediate;
 }
 
+void ch8_jump(struct ch8_resources* resources, uint16_t address)
+{
+	uint16_t dest = ch8_read_with_offset(resources->memory, address, 0) & 0xfff;
+	resources->registers[R_PC] = dest;
+}
+
 // void perform_zero(uint16_t registers[], uint16_t memory[], uint16_t address)
 // {
 // 	uint16_t second_word = read_with_offset(memory, address, 8) & 0xf;
