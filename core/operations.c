@@ -3,7 +3,7 @@
 #include "../core/asmio.h"
 #include "../core/resources.h"
 
-void perform_add_imm(struct ch8_resources* resources, uint16_t address)
+void ch8_add_imm(struct ch8_resources* resources, uint16_t address)
 {
 	uint16_t dest = ch8_read_with_offset(resources->memory, address, 8) & 0x7;
 	uint16_t immediate = ch8_read_with_offset(resources->memory, address, 0);

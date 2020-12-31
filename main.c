@@ -60,7 +60,7 @@ int main( int argc, char* argv[] )
             // switch (op)
             // {
             //         case OP_REG:
-            //                 perform_add_imm(
+            //                 ch8_add_imm(
             //                         &resources,
             //                         resources.registers[R_PC]);
             //                 return 0;

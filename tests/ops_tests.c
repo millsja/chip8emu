@@ -19,7 +19,7 @@ int test_immediate_add()
              ((R_V0 & 0xf) << 8) |     // dest
              (15 & 0xff);              // immediate
 
-    perform_add_imm(resources.registers, resources.memory, resources.registers[R_PC]);
+    ch8_add_imm(resources.registers, resources.memory, resources.registers[R_PC]);
     uint16_t found = resources.registers[R_V0];
     free(resources.memory);
 
