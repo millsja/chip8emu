@@ -21,6 +21,8 @@ typedef enum operandsenum_t
 	OP_OTH,
 } operandsenm_t;
 
-void perform_add_imm(uint16_t registers[], uint16_t memory[], uint16_t address);
+void perform_add_imm(struct ch8_resources* resources, uint16_t address);
+
+// void perform_zero(uint16_t registers[], uint16_t memory[], uint16_t address);
 
 #endif

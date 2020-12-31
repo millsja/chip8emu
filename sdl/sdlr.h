@@ -7,7 +7,8 @@ struct sdlr_resources
 {
     SDL_Window* window;
     SDL_Renderer* renderer;
-    SDL_Surface* window_surface;
+    SDL_Texture* window_texture;
+    uint32_t* texture_pixels;
 };
 
 struct sdlr_screen
@@ -19,16 +20,20 @@ struct sdlr_screen
     const int actual_height;
 };
 
-// name: sdl_init
-// description: takes struct sdlr_screen* containing information
+// name: sdlr_init
+// desc: takes struct sdlr_screen* containing information
 //              about new screen configuration. initializes sdl,
 //              window, renderer, etc., and returns these resources
 //              in a struct sdlr_resources*
 struct sdlr_resources* sdlr_init(struct sdlr_screen* screen_info);
 
-// name: sdl_clean_up
-// description: takes struct sdlr_resources and destroys them
+// name: sdlr_clean_up
+// desc: takes struct sdlr_resources and destroys them
 //              frees object and quits sdl
 void sdlr_clean_up(struct sdlr_resources* resources);
+
+// name: sdlr_update_screen
+// desc: updates texture, window from pixels in resources obj
+void sdlr_update_screen(struct sdlr_resources* resources);
 
 #endif
