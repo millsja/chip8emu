@@ -11,7 +11,7 @@
 void mess_with_pixels(uint32_t* pixels)
 {
     uint8_t sprite[] = {0x3c, 0x62, 0xc0, 0xc0, 0xde, 0xd2, 0xc2, 0x66, 0x3c, 0x00, 0x00};
-    draw_sprite(pixels, 0, 0, sprite, 11);
+    ch8_draw_sprite(pixels, 0, 0, sprite, 11);
 }
 
 int main( int argc, char* argv[] )

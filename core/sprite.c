@@ -8,7 +8,7 @@ static int set_pixel(uint32_t* pixels, int x, int y)
     return temp && *pixel;
 }
 
-int draw_sprite(
+int ch8_draw_sprite(
         uint32_t* pixels,
         int offset_x,
         int offset_y,
