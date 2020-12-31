@@ -3,6 +3,8 @@
 
 #define CH8_INSTALLED_MEMORY 4096 // bytes
 
+#include "../utilities/stack.h"
+
 enum ch8_registers_enum
 {
 	R_V0 = 0,
@@ -29,6 +31,7 @@ struct ch8_resources
 {
     uint16_t registers[R_COUNT];
     uint16_t* memory;
+    struct stk_stack stack;
 };
 
 #endif

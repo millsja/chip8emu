@@ -7,7 +7,7 @@ struct stk_stack
 {
     int top;
     uint16_t stack[12];
-} stk_empty = {-1, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+};
 
 // struct stk_stack* stk_init();
 

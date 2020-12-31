@@ -16,20 +16,21 @@ void mess_with_pixels(uint32_t* pixels)
 
 int main( int argc, char* argv[] )
 {
-    // if (argc < 2)
-    // {
-    //         fprintf(stderr, "Expected image file arguments...\n");
-    //         return 1;
-    // }
+    if (argc < 2)
+    {
+            fprintf(stderr, "Expected image file arguments...\n");
+            return 1;
+    }
 
     struct ch8_resources resources;
     resources.memory = malloc(CH8_INSTALLED_MEMORY);
+    resources.stack.top = -1;
 
     // load image(s) into memory
-    // for (int i = 1; i < argc; i++)
-    // {
-    //         ch8_load_image(argv[i], resources.memory);
-    // }
+    for (int i = 1; i < argc; i++)
+    {
+            ch8_load_image(argv[i], resources.memory);
+    }
 
     resources.registers[R_PC] = 0x200;
 
@@ -47,29 +48,30 @@ int main( int argc, char* argv[] )
         int quit = 0;
         while (!quit)
         {
-            while(SDL_PollEvent(&e) != 0)
+            while(SDL_PollEvent(&e))
             {
-                    if(e.type == SDL_QUIT)
-                    {
-                            quit = 1;
-                    }
+                printf("Event popped from buffer...");
+                if(e.type == SDL_QUIT)
+                {
+                        quit = 1;
+                }
             }
 
-            // uint16_t op = ch8_read_with_offset(resources.memory, resources.registers[R_PC], 12);
+            uint16_t op = ch8_read_with_offset(resources.memory, resources.registers[R_PC], 12);
 
-            // switch (op)
-            // {
-            //         case OP_REG:
-            //                 ch8_add_imm(
-            //                         &resources,
-            //                         resources.registers[R_PC]);
-            //                 return 0;
-            //                 break;
-            //         default:
-            //                 break;
-            // }
+            switch (op)
+            {
+                    case OP_ADD_I:
+                            ch8_add_imm(&resources, resources.registers[R_PC]);
+                            break;
+                    case OP_JMP_I:
+                            ch8_jump(&resources, resources.registers[R_PC]);
+                            break;
+                    default:
+                            break;
+            }
             
-            // resources.registers[R_PC]++;
+            resources.registers[R_PC]++;
         }
 
         sdlr_clean_up(sdl_resources);
