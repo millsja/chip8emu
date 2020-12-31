@@ -1,23 +1,23 @@
 #include <stdio.h>
 #include <stdint.h>
 
-uint16_t read_from_memory(uint16_t memory[], uint16_t address)
+static uint16_t read_from_memory(uint16_t memory[], uint16_t address)
 {
 	return memory[address];
 }
 
-uint16_t read_with_offset(uint16_t memory[], uint16_t address, int offset)
+uint16_t ch8_read_with_offset(uint16_t memory[], uint16_t address, int offset)
 {
 	uint16_t instr = read_from_memory(memory, address);
 	return instr >> offset;
 }
 
-uint16_t swap16(uint16_t x)
+static uint16_t swap16(uint16_t x)
 {
 	return (x << 8) | (x >> 8);
 }
 
-void load_image_file(FILE* file, uint16_t memory[])
+static void load_image_file(FILE* file, uint16_t memory[])
 {
 	uint16_t origin;
 	fread(&origin, sizeof(origin), 1, file);
@@ -34,7 +34,7 @@ void load_image_file(FILE* file, uint16_t memory[])
 	}
 }
 
-int load_image(const char* image_path, uint16_t memory[])
+int ch8_load_image(const char* image_path, uint16_t memory[])
 {
 	FILE* file = fopen(image_path, "rb");
 	if (!file)

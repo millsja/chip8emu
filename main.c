@@ -3,9 +3,9 @@
 #include <stdio.h>
 
 #include "sdl/sdlr.h"
-#include "core/ch8resources.h"
-#include "operations/operations.h"
-#include "asmio/asmio.h"
+#include "core/resources.h"
+#include "core/operations.h"
+#include "core/asmio.h"
 #include "core/sprite.h"
 
 void mess_with_pixels(uint32_t* pixels)
@@ -28,13 +28,15 @@ int main( int argc, char* argv[] )
     // load image(s) into memory
     // for (int i = 1; i < argc; i++)
     // {
-    //         load_image(argv[i], resources.memory);
+    //         ch8_load_image(argv[i], resources.memory);
     // }
 
     resources.registers[R_PC] = 0x200;
 
     struct sdlr_screen screen_info = { "chip8emu", 64, 32, 640, 320 };
     struct sdlr_resources* sdl_resources = sdlr_init(&screen_info);
+
+    sdlr_clear_screen(sdl_resources);
 
     // mess_with_pixels(sdl_resources->texture_pixels);
     // sdlr_update_screen(sdl_resources);
@@ -53,7 +55,7 @@ int main( int argc, char* argv[] )
                     }
             }
 
-            // uint16_t op = read_with_offset(resources.memory, resources.registers[R_PC], 12);
+            // uint16_t op = ch8_read_with_offset(resources.memory, resources.registers[R_PC], 12);
 
             // switch (op)
             // {

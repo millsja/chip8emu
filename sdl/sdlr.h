@@ -36,4 +36,8 @@ void sdlr_clean_up(struct sdlr_resources* resources);
 // desc: updates texture, window from pixels in resources obj
 void sdlr_update_screen(struct sdlr_resources* resources);
 
+// name: sdlr_clear_screen
+// desc: fills screen with rect, updates window
+void sdlr_clear_screen(struct sdlr_resources* resources);
+
 #endif

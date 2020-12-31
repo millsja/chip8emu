@@ -1,12 +1,12 @@
 #include <stdint.h>
 #include <stdio.h>
-#include "../asmio/asmio.h"
-#include "../core/ch8resources.h"
+#include "../core/asmio.h"
+#include "../core/resources.h"
 
 void perform_add_imm(struct ch8_resources* resources, uint16_t address)
 {
-	uint16_t dest = read_with_offset(resources->memory, address, 8) & 0x7;
-	uint16_t immediate = read_from_memory(resources->memory, address);
+	uint16_t dest = ch8_read_with_offset(resources->memory, address, 8) & 0x7;
+	uint16_t immediate = ch8_read_with_offset(resources->memory, address, 0);
 	immediate = immediate & 0xff;
 	resources->registers[dest] = resources->registers[dest] + immediate;
 }

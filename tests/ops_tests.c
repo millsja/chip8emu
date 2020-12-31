@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdint.h>
-#include "../core/ch8resources.h"
-#include "../operations/operations.h"
-#include "../asmio/asmio.h"
+#include "../core/resources.h"
+#include "../core/operations.h"
+#include "../core/asmio.h"
 
 int test_immediate_add()
 {

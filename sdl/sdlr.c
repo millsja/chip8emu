@@ -44,16 +44,8 @@ struct sdlr_resources* sdlr_init(struct sdlr_screen* screen_info)
             return NULL;
     }
 
-    SDL_Surface* window_surface = SDL_GetWindowSurface(resources->window);
 
-    SDL_FillRect(
-            window_surface,
-            NULL,
-            SDL_MapRGB(window_surface->format, 0x00, 0x00, 0x00));
-    
-    SDL_UpdateWindowSurface(resources->window);
-
-    SDL_FreeSurface(window_surface);
+    sdlr_clear_screen(resources);
 
     resources->window_texture = SDL_CreateTexture(
             resources->renderer,
@@ -87,4 +79,18 @@ void sdlr_update_screen(struct sdlr_resources* resources)
     SDL_RenderClear(resources->renderer);
     SDL_RenderCopy(resources->renderer, resources->window_texture, NULL, NULL);
     SDL_RenderPresent(resources->renderer);
+}
+
+void sdlr_clear_screen(struct sdlr_resources* resources)
+{
+    SDL_Surface* window_surface = SDL_GetWindowSurface(resources->window);
+
+    SDL_FillRect(
+            window_surface,
+            NULL,
+            SDL_MapRGB(window_surface->format, 0x00, 0x00, 0x00));
+    
+    SDL_UpdateWindowSurface(resources->window);
+
+    SDL_FreeSurface(window_surface);
 }

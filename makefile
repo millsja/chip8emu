@@ -11,14 +11,14 @@ obj/sdlr.o: sdl/sdlr.c
 obj/main.o: main.c
 	${CC} main.c ${CC_FLAGS} -c -o obj/main.o
 
-obj/asmio.o: asmio/asmio.c
-	${CC} asmio/asmio.c ${CC_FLAGS} -c -o obj/asmio.o
+obj/asmio.o: core/asmio.c
+	${CC} core/asmio.c ${CC_FLAGS} -c -o obj/asmio.o
 
 obj/sprite.o: core/sprite.c
 	${CC} core/sprite.c ${CC_FLAGS} -c -o obj/sprite.o
 
-obj/operations.o: asmio/asmio.o operations/operations.c
-	${CC} operations/operations.c ${CC_FLAGS} -c -o obj/operations.o
+obj/operations.o: core/operations.c
+	${CC} core/operations.c ${CC_FLAGS} -c -o obj/operations.o
 
 bin/tests: obj/asmio.o obj/operations.o tests/ops_tests.c
 	${CC} tests/ops_tests.c ${CC_FLAGS} -o bin/tests $^
