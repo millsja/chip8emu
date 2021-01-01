@@ -1,5 +1,7 @@
 # chip8emu
 
+Simple C implementation of the [Chip-8 interpreter](https://en.wikipedia.org/wiki/CHIP-8) as used on the 1977 COSMAC VIP. This project is built using C11 with the SDL2 libraries for video, window management.
+
     ## Instruction set checklist (op code, c pseudo)
     [ ] 0NNN  ----  not implemented	
     [x] 000E  ----  disp_clear()
