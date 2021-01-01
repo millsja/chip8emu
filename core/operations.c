@@ -14,9 +14,14 @@ void ch8_add_imm(struct ch8_resources* resources, uint16_t address)
 
 void ch8_jump(struct ch8_resources* resources, uint16_t address)
 {
-    stk_push(&(resources->stack), address);
     uint16_t dest = ch8_read_with_offset(resources->memory, address, 0) & 0xfff;
-    resources->registers[R_PC] = dest;
+    resources->registers[R_PC] = --dest;
+}
+
+void ch8_run_sub(struct ch8_resources* resources, uint16_t address)
+{
+    stk_push(&(resources->stack), address);
+    ch8_jump(resources, address);
 }
 
 // void perform_zero(uint16_t registers[], uint16_t memory[], uint16_t address)

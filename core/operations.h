@@ -5,7 +5,7 @@ typedef enum operandsenum_t
 {
 	OP_ZER = 0,
 	OP_JMP_I,
-	OP_EXE,
+	OP_RUN,
 	OP_BEQ_I,
 	OP_BNE_I,
 	OP_BEQ_R,
@@ -24,6 +24,8 @@ typedef enum operandsenum_t
 void ch8_add_imm(struct ch8_resources* resources, uint16_t address);
 
 void ch8_jump(struct ch8_resources* resources, uint16_t address);
+
+void ch8_run_sub(struct ch8_resources* resources, uint16_t address);
 
 // void perform_zero(uint16_t registers[], uint16_t memory[], uint16_t address);
 

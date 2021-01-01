@@ -67,6 +67,9 @@ int main( int argc, char* argv[] )
                     case OP_JMP_I:
                             ch8_jump(&resources, resources.registers[R_PC]);
                             break;
+                    case OP_RUN:
+                            ch8_jump(&resources, resources.registers[R_PC]);
+                            break;
                     default:
                             break;
             }
