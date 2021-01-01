@@ -53,7 +53,7 @@ int test_return()
             ((OP_ZER & 0xf) << 12) | // opcode
              (0x0EE & 0xfff);          // immediate
 
-    ch8_zero(&resources, resources.registers[R_PC]);
+    ch8_zero(&resources, NULL, resources.registers[R_PC], NULL);
     uint16_t found_0 =  resources.registers[R_PC];
 
     free(resources.memory);

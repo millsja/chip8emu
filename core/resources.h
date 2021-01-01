@@ -4,6 +4,7 @@
 #define CH8_INSTALLED_MEMORY 4096 // bytes
 
 #include "../utilities/stack.h"
+#include "../sdl/sdlr.h"
 
 enum ch8_registers_enum
 {
@@ -33,5 +34,12 @@ struct ch8_resources
     uint16_t* memory;
     struct stk_stack stack;
 };
+
+void ch8_execute(
+        struct sdlr_screen* screen_info,
+        void (*set_up)(struct ch8_resources*, struct sdlr_resources*, int, char**),
+        int (*execute)(struct ch8_resources*, struct sdlr_resources*),
+        int argc,
+        char* argv[]);
 
 #endif
