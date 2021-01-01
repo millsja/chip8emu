@@ -2,7 +2,7 @@
 
 Simple C implementation of the [Chip-8 interpreter](https://en.wikipedia.org/wiki/CHIP-8) as used on the 1977 COSMAC VIP. This project is built using C11 with the SDL2 libraries for video, window management.
 
-    ## Instruction set checklist (op code, c pseudo)
+    ## Instruction set checklist (op code, c pseudo*)
     [ ] 0NNN  ----  not implemented	
     [x] 000E  ----  disp_clear()
     [x] 00EE  ----  return;
@@ -39,4 +39,4 @@ Simple C implementation of the [Chip-8 interpreter](https://en.wikipedia.org/wik
     [ ] FX55  ----  reg_dump(Vx,&I)
     [ ] FX65  ----  reg_load(Vx,&I)
 
-\* c pseudo [from Wikipedia](https://en.wikipedia.org/wiki/CHIP-8)
+\* c pseudo descriptions from [from Wikipedia](https://en.wikipedia.org/wiki/CHIP-8#Opcode_table)
