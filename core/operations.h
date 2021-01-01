@@ -27,6 +27,6 @@ void ch8_jump(struct ch8_resources* resources, uint16_t address);
 
 void ch8_run_sub(struct ch8_resources* resources, uint16_t address);
 
-// void perform_zero(uint16_t registers[], uint16_t memory[], uint16_t address);
+void ch8_zero(struct ch8_resources* resources, uint16_t address);
 
 #endif

@@ -24,20 +24,24 @@ void ch8_run_sub(struct ch8_resources* resources, uint16_t address)
     ch8_jump(resources, address);
 }
 
-// void perform_zero(uint16_t registers[], uint16_t memory[], uint16_t address)
-// {
-// 	uint16_t second_word = read_with_offset(memory, address, 8) & 0xf;
-// 
-//         if (second_word >= 1)
-//         {
-//             return;
-//         }
-//         
-// 	uint16_t second_byte = read_with_offset(memory, address, 0) & 0xff;
-//         if (second_byte == 0xEE)
-//         {
-//             return;
-//         }
-// 
-//         return;
-// }
+void ch8_zero(struct ch8_resources* resources, uint16_t address)
+{
+	uint16_t second_word = ch8_read_with_offset(resources->memory, address, 8) & 0xf;
+
+        if (second_word >= 1)
+        {
+            // NOT YET IMPLEMENTED
+            return;
+        }
+        
+	uint16_t second_byte = ch8_read_with_offset(resources->memory, address, 0) & 0xff;
+        if (second_byte == 0xEE)
+        {
+            uint16_t popped_address = stk_pop(&(resources->stack));
+            resources->registers[R_PC] = --popped_address;
+            return;
+        }
+
+        // NOT YET IMPLEMENTED
+        return;
+}
