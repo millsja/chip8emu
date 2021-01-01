@@ -9,8 +9,6 @@ struct stk_stack
     uint16_t stack[12];
 };
 
-// struct stk_stack* stk_init();
-
 void stk_push(struct stk_stack* stack, uint16_t value);
 
 uint16_t stk_pop(struct stk_stack* stack);
