@@ -41,6 +41,14 @@ int main( int argc, char* argv[] )
 
     // mess_with_pixels(sdl_resources->texture_pixels);
     // sdlr_update_screen(sdl_resources);
+    // resources.memory[resources.registers[R_PC]] =
+    //         ((OP_ZER & 0xf) << 12) | // opcode
+    //          (0x0e0 & 0xfff);          // immediate
+    // ch8_zero(
+    //         &resources,
+    //         sdl_resources,
+    //         resources.registers[R_PC],
+    //         sdlr_clear_screen);
 
     if (sdl_resources != NULL)
     {
@@ -68,7 +76,14 @@ int main( int argc, char* argv[] )
                             ch8_jump(&resources, resources.registers[R_PC]);
                             break;
                     case OP_RUN:
-                            ch8_jump(&resources, resources.registers[R_PC]);
+                            ch8_run_sub(&resources, resources.registers[R_PC]);
+                            break;
+                    case OP_ZER:
+                            ch8_zero(
+                                    &resources,
+                                    sdl_resources,
+                                    resources.registers[R_PC],
+                                    sdlr_clear_screen);
                             break;
                     default:
                             break;

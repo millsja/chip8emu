@@ -1,6 +1,8 @@
 #ifndef OPERATIONS_H
 #define OPERATIONS_H
 
+#include "../sdl/sdlr.h"
+
 typedef enum operandsenum_t
 {
 	OP_ZER = 0,
@@ -27,6 +29,10 @@ void ch8_jump(struct ch8_resources* resources, uint16_t address);
 
 void ch8_run_sub(struct ch8_resources* resources, uint16_t address);
 
-void ch8_zero(struct ch8_resources* resources, uint16_t address);
+void ch8_zero(
+        struct ch8_resources* resources,
+        struct sdlr_resources* sdl_resources,
+        uint16_t address,
+        void (*clear_screen)(struct sdlr_resources*));
 
 #endif

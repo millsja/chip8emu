@@ -20,8 +20,8 @@ obj/sprite.o: core/sprite.c
 obj/stack.o: utilities/stack.c
 	${CC} utilities/stack.c ${CC_FLAGS} -c -o obj/stack.o
 
-obj/operations.o: core/operations.c
-	${CC} core/operations.c ${CC_FLAGS} -c -o obj/operations.o
+obj/operations.o: core/operations.c obj/sdlr.o
+	${CC} core/operations.c obj/sdlr.o ${CC_FLAGS} -c -o obj/operations.o
 
 bin/ops_tests: tests/ops_tests.c
 	${CC} tests/ops_tests.c core/asmio.c utilities/stack.c core/operations.c ${CC_FLAGS} -o bin/ops_tests

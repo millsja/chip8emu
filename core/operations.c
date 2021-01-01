@@ -3,6 +3,7 @@
 #include "../core/asmio.h"
 #include "../core/resources.h"
 #include "../utilities/stack.h"
+#include "../sdl/sdlr.h"
 
 void ch8_add_imm(struct ch8_resources* resources, uint16_t address)
 {
@@ -24,7 +25,11 @@ void ch8_run_sub(struct ch8_resources* resources, uint16_t address)
     ch8_jump(resources, address);
 }
 
-void ch8_zero(struct ch8_resources* resources, uint16_t address)
+void ch8_zero(
+        struct ch8_resources* resources,
+        struct sdlr_resources* sdl_resources,
+        uint16_t address,
+        void (*clear_screen)(struct sdlr_resources*))
 {
 	uint16_t second_word = ch8_read_with_offset(resources->memory, address, 8) & 0xf;
 
@@ -42,6 +47,6 @@ void ch8_zero(struct ch8_resources* resources, uint16_t address)
             return;
         }
 
-        // NOT YET IMPLEMENTED
+        (*clear_screen)(sdl_resources);
         return;
 }
