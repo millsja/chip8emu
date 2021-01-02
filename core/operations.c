@@ -4,6 +4,7 @@
 #include "../core/resources.h"
 #include "../utilities/stack.h"
 #include "../sdl/sdlr.h"
+#include "operations.h"
 
 void ch8_jump(struct ch8_resources* resources, uint16_t address)
 {
@@ -87,4 +88,56 @@ void ch8_move_rnd(struct ch8_resources* resources, uint16_t address)
     uint16_t reg = ch8_read_with_offset(resources->memory, address, 8) & 0xf;
     uint16_t imm = ch8_read_with_offset(resources->memory, address, 0) & 0xff;
     resources->registers[reg] = ran & imm;
+}
+
+void ch8_operate(struct ch8_resources* resources, uint16_t address)
+{
+    uint16_t dst = ch8_read_with_offset(resources->memory, address, 8) & 0xf;
+    uint16_t src = ch8_read_with_offset(resources->memory, address, 4) & 0xf;
+    uint16_t operation = ch8_read_with_offset(resources->memory, address, 0) & 0xf;
+    uint16_t d_val = resources->registers[dst];
+    uint16_t s_val = resources->registers[src];
+
+    int output = 0;
+    switch(operation)
+    {
+        case OP_NONE:
+            resources->registers[dst] = s_val;
+            break;
+        case OP_OR:
+            resources->registers[dst] = d_val | s_val;
+            break;
+        case OP_AND:
+            resources->registers[dst] = d_val & s_val;
+            break;
+        case OP_XOR:
+            resources->registers[dst] = d_val ^ s_val;
+            break;
+        case OP_ADD:
+            output = d_val + s_val;
+            resources->registers[dst] = output & 0xff;
+            resources->registers[R_VF] = output > 0xff;
+            break;
+        case OP_SUB:
+            output = d_val - s_val;
+            resources->registers[dst] = output & 0xff;
+            resources->registers[R_VF] = output < 0;
+            break;
+        case OP_SHIFT_R:
+            resources->registers[R_VF] = resources->registers[dst] & 0x1;
+            resources->registers[dst] = d_val >> 1;
+            break;
+        case OP_SUB_REV:
+            output = s_val - d_val;
+            resources->registers[dst] = output & 0xff;
+            resources->registers[R_VF] = output < 0;
+            break;
+        case OP_SHIFT_L:
+            resources->registers[R_VF] = (resources->registers[dst] >> 14) & 0x1;
+            resources->registers[dst] = d_val << 1;
+            break;
+        default:
+            fprintf(stderr, "Operate mode not implemented: %x\n", operation);
+            break;
+    }
 }

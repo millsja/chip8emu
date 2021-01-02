@@ -22,7 +22,7 @@ int test_immediate_add()
     resources.registers[R_V0] = 5;
 
     resources.memory[resources.registers[R_PC]] =
-        ((OP_ADD_I & 0xf) << 12) | // opcode
+        ((INSTR_ADD_I & 0xf) << 12) | // opcode
         ((R_V0 & 0xf) << 8) |     // dest
         (15 & 0xff);              // immediate
 
@@ -46,7 +46,7 @@ int test_mov_i()
     resources.registers[R_V0] = 5;
 
     resources.memory[resources.registers[R_PC]] =
-        ((OP_MOV_I & 0xf) << 12) | // opcode
+        ((INSTR_MOV_I & 0xf) << 12) | // opcode
         ((R_V0 & 0xf) << 8) |     // dest
         (15 & 0xff);              // immediate
 
@@ -68,7 +68,7 @@ int test_mov_rnd()
     resources.registers[R_V0] = 5;
 
     resources.memory[resources.registers[R_PC]] =
-        ((OP_RND & 0xf) << 12) | // opcode
+        ((INSTR_RND & 0xf) << 12) | // opcode
         ((R_V0 & 0xf) << 8) |     // dest
         (15 & 0xff);              // immediate
 
@@ -98,13 +98,13 @@ int test_return()
     uint16_t expected_0 =  resources.registers[R_PC];
 
     resources.memory[resources.registers[R_PC]] = 
-            ((OP_RUN & 0xf) << 12) | // opcode
+            ((INSTR_RUN & 0xf) << 12) | // opcode
              (0xa35 & 0xfff);          // immediate
 
     ch8_run_sub(&resources, resources.registers[R_PC]);
 
     resources.memory[resources.registers[R_PC]] = 
-            ((OP_ZER & 0xf) << 12) | // opcode
+            ((INSTR_ZER & 0xf) << 12) | // opcode
              (0x0EE & 0xfff);          // immediate
 
     ch8_zero(&resources, NULL, resources.registers[R_PC], NULL);
@@ -128,7 +128,7 @@ int test_jump()
     resources.registers[R_PC] = 0x200;
 
     resources.memory[resources.registers[R_PC]] = 
-            ((OP_JMP_I & 0xf) << 12) | // opcode
+            ((INSTR_JMP_I & 0xf) << 12) | // opcode
              (expected_0 & 0xfff);          // immediate
 
     ch8_jump(&resources, resources.registers[R_PC]);
@@ -152,7 +152,7 @@ int test_run_sub()
     uint16_t expected_1 = resources.registers[R_PC];
 
     resources.memory[resources.registers[R_PC]] = 
-            ((OP_RUN & 0xf) << 12) | // opcode
+            ((INSTR_RUN & 0xf) << 12) | // opcode
              (expected_0 & 0xfff);          // immediate
 
     ch8_run_sub(&resources, resources.registers[R_PC]);
@@ -178,7 +178,7 @@ int test_beq_i()
     resources.registers[R_V0] = 15 & 0xff;
 
     resources.memory[resources.registers[R_PC]] =
-        ((OP_BEQ_I & 0xf) << 12) | // opcode
+        ((INSTR_BEQ_I & 0xf) << 12) | // opcode
         ((R_V0 & 0xf) << 8) |     // dest
         (15 & 0xff);              // immediate
 
@@ -191,7 +191,7 @@ int test_beq_i()
     resources.registers[R_V0] = 15 & 0xff;
 
     resources.memory[resources.registers[R_PC]] =
-        ((OP_BEQ_I & 0xf) << 12) | // opcode
+        ((INSTR_BEQ_I & 0xf) << 12) | // opcode
         ((R_V0 & 0xf) << 8) |     // dest
         (16 & 0xff);              // immediate
 
@@ -217,7 +217,7 @@ int test_beq_r()
     resources.registers[R_V1] = 15 & 0xff;
 
     resources.memory[resources.registers[R_PC]] =
-        ((OP_BEQ_R & 0xf) << 12) | // opcode
+        ((INSTR_BEQ_R & 0xf) << 12) | // opcode
         ((R_V0 & 0xf) << 8) |     // dest
         ((R_V1 & 0xf) << 4) |     // dest
         (0xf);              // immediate
@@ -232,7 +232,7 @@ int test_beq_r()
     resources.registers[R_V1] = 16 & 0xff;
 
     resources.memory[resources.registers[R_PC]] =
-        ((OP_BEQ_R & 0xf) << 12) | // opcode
+        ((INSTR_BEQ_R & 0xf) << 12) | // opcode
         ((R_V0 & 0xf) << 8) |     // dest
         ((R_V1 & 0xf) << 4) |     // dest
         (0xf);              // immediate
@@ -260,7 +260,7 @@ int test_bne_r()
     resources.registers[R_V1] = 15 & 0xff;
 
     resources.memory[resources.registers[R_PC]] =
-        ((OP_BEQ_R & 0xf) << 12) | // opcode
+        ((INSTR_BEQ_R & 0xf) << 12) | // opcode
         ((R_V0 & 0xf) << 8) |     // dest
         ((R_V1 & 0xf) << 4) |     // dest
         (0xf);              // immediate
@@ -275,7 +275,7 @@ int test_bne_r()
     resources.registers[R_V1] = 16 & 0xff;
 
     resources.memory[resources.registers[R_PC]] =
-        ((OP_BEQ_R & 0xf) << 12) | // opcode
+        ((INSTR_BEQ_R & 0xf) << 12) | // opcode
         ((R_V0 & 0xf) << 8) |     // dest
         ((R_V1 & 0xf) << 4) |     // dest
         (0xf);              // immediate
@@ -303,7 +303,7 @@ int test_bne_i()
     resources.registers[R_V0] = 15 & 0xff;
 
     resources.memory[resources.registers[R_PC]] =
-        ((OP_BNE_I & 0xf) << 12) | // opcode
+        ((INSTR_BNE_I & 0xf) << 12) | // opcode
         ((R_V0 & 0xf) << 8) |     // dest
         (15 & 0xff);              // immediate
 
@@ -316,7 +316,7 @@ int test_bne_i()
     resources.registers[R_V0] = 15 & 0xff;
 
     resources.memory[resources.registers[R_PC]] =
-        ((OP_BNE_I & 0xf) << 12) | // opcode
+        ((INSTR_BNE_I & 0xf) << 12) | // opcode
         ((R_V0 & 0xf) << 8) |     // dest
         (16 & 0xff);              // immediate
 

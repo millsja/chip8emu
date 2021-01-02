@@ -11,17 +11,17 @@ Simple C implementation of the [Chip-8 interpreter](https://en.wikipedia.org/wik
     [x] 3XNN  ----  if(Vx==NN)
     [x] 4XNN  ----  if(Vx!=NN)
     [x] 5XY0  ----  if(Vx==Vy)
-    [x] 6XNN  ----  Vx = NN
-    [x] 7XNN  ----  Vx += NN
-    [ ] 8XY0  ----  Vx=Vy
-    [ ] 8XY1  ----  Vx=Vx|Vy
-    [ ] 8XY2  ----  Vx=Vx&Vy
-    [ ] 8XY3  ----  Vx=Vx^Vy
-    [ ] 8XY4  ----  Vx += Vy
-    [ ] 8XY5  ----  Vx -= Vy
-    [ ] 8XY6  ----  Vx>>=1
-    [ ] 8XY7  ----  Vx=Vy-Vx
-    [ ] 8XYE  ----  Vx<<=1
+    [t] 6XNN  ----  Vx = NN
+    [t] 7XNN  ----  Vx += NN
+    [t] 8XY0  ----  Vx=Vy
+    [t] 8XY1  ----  Vx=Vx|Vy
+    [t] 8XY2  ----  Vx=Vx&Vy
+    [t] 8XY3  ----  Vx=Vx^Vy
+    [t] 8XY4  ----  Vx += Vy
+    [t] 8XY5  ----  Vx -= Vy
+    [t] 8XY6  ----  Vx>>=1
+    [t] 8XY7  ----  Vx=Vy-Vx
+    [t] 8XYE  ----  Vx<<=1
     [x] 9XY0  ----  if(Vx!=Vy)
     [ ] ANNN  ----  I = NNN
     [ ] BNNN  ----  PC=V0+NNN
@@ -40,3 +40,4 @@ Simple C implementation of the [Chip-8 interpreter](https://en.wikipedia.org/wik
     [ ] FX65  ----  reg_load(Vx,&I)
 
 \* c pseudo descriptions from [from Wikipedia](https://en.wikipedia.org/wiki/CHIP-8#Opcode_table)
+\* t = added but still needs tests

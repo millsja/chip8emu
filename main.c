@@ -30,38 +30,41 @@ int execute_main(struct ch8_resources* resources, struct sdlr_resources* sdl_res
 
     switch (op)
     {
-            case OP_ADD_I:
+            case INSTR_ADD_I:
                     ch8_move_imm(resources, resources->registers[R_PC], 1);
                     break;
-            case OP_JMP_I:
+            case INSTR_JMP_I:
                     ch8_jump(resources, resources->registers[R_PC]);
                     break;
-            case OP_RUN:
+            case INSTR_RUN:
                     ch8_run_sub(resources, resources->registers[R_PC]);
                     break;
-            case OP_ZER:
+            case INSTR_ZER:
                     ch8_zero(
                             resources,
                             sdl_resources,
                             resources->registers[R_PC],
                             sdlr_clear_screen);
                     break;
-            case OP_BEQ_I:
+            case INSTR_BEQ_I:
                     ch8_branch_imm(resources, resources->registers[R_PC], 0);
                     break;
-            case OP_BNE_I:
+            case INSTR_BNE_I:
                     ch8_branch_imm(resources, resources->registers[R_PC], 1);
                     break;
-            case OP_BEQ_R:
+            case INSTR_BEQ_R:
                     ch8_branch_reg(resources, resources->registers[R_PC], 0);
                     break;
-            case OP_MOV_I:
+            case INSTR_MOV_I:
                     ch8_move_imm(resources, resources->registers[R_PC], 0);
                     break;
-            case OP_BNE_R:
+            case INSTR_BNE_R:
                     ch8_branch_reg(resources, resources->registers[R_PC], 1);
                     break;
-            case OP_RND:
+            case INSTR_OPR:
+                    ch8_operate(resources, resources->registers[R_PC]);
+                    break;
+            case INSTR_RND:
                     ch8_move_rnd(resources, resources->registers[R_PC]);
                     break;
             default:
