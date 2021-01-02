@@ -11,7 +11,7 @@ typedef enum operandsenum_t
 	OP_BEQ_I,
 	OP_BNE_I,
 	OP_BEQ_R,
-	OP_STR_I,
+	OP_MOV_I,
 	OP_ADD_I,
 	OP_REG,
 	OP_BNE_R,
@@ -35,8 +35,10 @@ void ch8_zero(
         uint16_t address,
         void (*clear_screen)(struct sdlr_resources*));
 
-void ch8_branch_imm(struct ch8_resources* resources, uint16_t address, int if_not_neq);
+void ch8_branch_imm(struct ch8_resources* resources, uint16_t address, int branch_if_neq);
 
-void ch8_branch_reg(struct ch8_resources* resources, uint16_t address, int if_not_neq);
+void ch8_branch_reg(struct ch8_resources* resources, uint16_t address, int branch_if_neq);
+
+void ch8_move_imm(struct ch8_resources* resources, uint16_t address, int add_and_store);
 
 #endif

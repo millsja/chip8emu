@@ -11,8 +11,8 @@ Simple C implementation of the [Chip-8 interpreter](https://en.wikipedia.org/wik
     [x] 3XNN  ----  if(Vx==NN)
     [x] 4XNN  ----  if(Vx!=NN)
     [x] 5XY0  ----  if(Vx==Vy)
-    [ ] 6XNN  ----  Vx = NN
-    [ ] 7XNN  ----  Vx += NN
+    [x] 6XNN  ----  Vx = NN
+    [x] 7XNN  ----  Vx += NN
     [ ] 8XY0  ----  Vx=Vy
     [ ] 8XY1  ----  Vx=Vx|Vy
     [ ] 8XY2  ----  Vx=Vx&Vy

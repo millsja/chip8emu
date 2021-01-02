@@ -25,11 +25,35 @@ int test_immediate_add()
         ((R_V0 & 0xf) << 8) |     // dest
         (15 & 0xff);              // immediate
 
-    ch8_add_imm(&resources, resources.registers[R_PC]);
+    ch8_move_imm(&resources, resources.registers[R_PC], 1);
     uint16_t found = resources.registers[R_V0];
     free(resources.memory);
 
     print_results("Add", expected, found);
+
+    return expected == found;
+}
+
+int test_mov_i()
+{
+    struct ch8_resources resources;
+    resources.memory = malloc(CH8_INSTALLED_MEMORY);
+
+    uint16_t expected = 15;
+
+    resources.registers[R_PC] = 0x200;
+    resources.registers[R_V0] = 5;
+
+    resources.memory[resources.registers[R_PC]] =
+        ((OP_MOV_I & 0xf) << 12) | // opcode
+        ((R_V0 & 0xf) << 8) |     // dest
+        (15 & 0xff);              // immediate
+
+    ch8_move_imm(&resources, resources.registers[R_PC], 0);
+    uint16_t found = resources.registers[R_V0];
+    free(resources.memory);
+
+    print_results("Mov", expected, found);
 
     return expected == found;
 }
@@ -286,5 +310,6 @@ int main(void)
     test_bne_i();
     test_beq_r();
     test_bne_r();
+    test_mov_i();
     printf("\n");
 }

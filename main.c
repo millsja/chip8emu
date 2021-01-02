@@ -23,7 +23,7 @@ int execute_main(struct ch8_resources* resources, struct sdlr_resources* sdl_res
     switch (op)
     {
             case OP_ADD_I:
-                    ch8_add_imm(resources, resources->registers[R_PC]);
+                    ch8_move_imm(resources, resources->registers[R_PC], 1);
                     break;
             case OP_JMP_I:
                     ch8_jump(resources, resources->registers[R_PC]);
@@ -46,6 +46,9 @@ int execute_main(struct ch8_resources* resources, struct sdlr_resources* sdl_res
                     break;
             case OP_BEQ_R:
                     ch8_branch_reg(resources, resources->registers[R_PC], 0);
+                    break;
+            case OP_MOV_I:
+                    ch8_move_imm(resources, resources->registers[R_PC], 0);
                     break;
             case OP_BNE_R:
                     ch8_branch_reg(resources, resources->registers[R_PC], 1);
