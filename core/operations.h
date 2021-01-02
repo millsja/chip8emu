@@ -41,4 +41,6 @@ void ch8_branch_reg(struct ch8_resources* resources, uint16_t address, int branc
 
 void ch8_move_imm(struct ch8_resources* resources, uint16_t address, int add_and_store);
 
+void ch8_move_rnd(struct ch8_resources* resources, uint16_t address);
+
 #endif

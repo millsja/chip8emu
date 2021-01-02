@@ -1,0 +1,2 @@
+#!/bin/bash
+gdb --args bin/chip8emu -d ~/Downloads/glitchGhost.ch8

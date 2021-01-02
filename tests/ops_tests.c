@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <time.h>
 #include "../core/resources.h"
 #include "../core/operations.h"
 #include "../core/asmio.h"
@@ -56,6 +57,35 @@ int test_mov_i()
     print_results("Mov", expected, found);
 
     return expected == found;
+}
+
+int test_mov_rnd()
+{
+    struct ch8_resources resources;
+    resources.memory = malloc(CH8_INSTALLED_MEMORY);
+
+    resources.registers[R_PC] = 0x200;
+    resources.registers[R_V0] = 5;
+
+    resources.memory[resources.registers[R_PC]] =
+        ((OP_RND & 0xf) << 12) | // opcode
+        ((R_V0 & 0xf) << 8) |     // dest
+        (15 & 0xff);              // immediate
+
+    ch8_move_rnd(&resources, resources.registers[R_PC]);
+    uint16_t found = resources.registers[R_V0];
+    print_results("Rnd", found, found);
+
+    ch8_move_rnd(&resources, resources.registers[R_PC]);
+    found = resources.registers[R_V0];
+    print_results("... and", found, found);
+
+    ch8_move_rnd(&resources, resources.registers[R_PC]);
+    found = resources.registers[R_V0];
+    print_results("... and", found, found);
+
+    free(resources.memory);
+    return 1;
 }
 
 int test_return()
@@ -301,6 +331,7 @@ int test_bne_i()
 
 int main(void)
 {
+    srand(time(0));
     printf("\t\tExp\tFnd\tErr\n");
     test_immediate_add();
     test_jump();
@@ -311,5 +342,6 @@ int main(void)
     test_beq_r();
     test_bne_r();
     test_mov_i();
+    test_mov_rnd();
     printf("\n");
 }

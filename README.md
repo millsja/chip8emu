@@ -25,7 +25,7 @@ Simple C implementation of the [Chip-8 interpreter](https://en.wikipedia.org/wik
     [x] 9XY0  ----  if(Vx!=Vy)
     [ ] ANNN  ----  I = NNN
     [ ] BNNN  ----  PC=V0+NNN
-    [ ] CXNN  ----  Vx=rand()&NN
+    [x] CXNN  ----  Vx=rand()&NN
     [ ] DXYN  ----  draw(Vx,Vy,N)
     [ ] EX9E  ----  if(key()==Vx)
     [ ] EXA1  ----  if(key()!=Vx)
