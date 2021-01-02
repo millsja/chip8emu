@@ -112,6 +112,169 @@ int test_run_sub()
     return expected_0 == found_0 && expected_1 == found_1;
 }
 
+int test_beq_i()
+{
+    struct ch8_resources resources;
+    resources.stack.top = -1;
+    resources.memory = malloc(CH8_INSTALLED_MEMORY);
+
+    uint16_t expected_0 = 0x201;
+
+    resources.registers[R_PC] = 0x200;
+    resources.registers[R_V0] = 15 & 0xff;
+
+    resources.memory[resources.registers[R_PC]] =
+        ((OP_BEQ_I & 0xf) << 12) | // opcode
+        ((R_V0 & 0xf) << 8) |     // dest
+        (15 & 0xff);              // immediate
+
+    ch8_branch_imm(&resources, resources.registers[R_PC], 0);
+    uint16_t found_0 = resources.registers[R_PC];
+
+    uint16_t expected_1 = 0x200;
+
+    resources.registers[R_PC] = 0x200;
+    resources.registers[R_V0] = 15 & 0xff;
+
+    resources.memory[resources.registers[R_PC]] =
+        ((OP_BEQ_I & 0xf) << 12) | // opcode
+        ((R_V0 & 0xf) << 8) |     // dest
+        (16 & 0xff);              // immediate
+
+    ch8_branch_imm(&resources, resources.registers[R_PC], 0);
+    uint16_t found_1 = resources.registers[R_PC];
+    free(resources.memory);
+
+    print_results("BEQ imm", expected_0, found_0);
+    print_results("... and", expected_1, found_1);
+    return expected_0 == found_0;
+}
+
+int test_beq_r()
+{
+    struct ch8_resources resources;
+    resources.stack.top = -1;
+    resources.memory = malloc(CH8_INSTALLED_MEMORY);
+
+    uint16_t expected_0 = 0x201;
+
+    resources.registers[R_PC] = 0x200;
+    resources.registers[R_V0] = 15 & 0xff;
+    resources.registers[R_V1] = 15 & 0xff;
+
+    resources.memory[resources.registers[R_PC]] =
+        ((OP_BEQ_R & 0xf) << 12) | // opcode
+        ((R_V0 & 0xf) << 8) |     // dest
+        ((R_V1 & 0xf) << 4) |     // dest
+        (0xf);              // immediate
+
+    ch8_branch_reg(&resources, resources.registers[R_PC], 0);
+    uint16_t found_0 = resources.registers[R_PC];
+
+    uint16_t expected_1 = 0x200;
+
+    resources.registers[R_PC] = 0x200;
+    resources.registers[R_V0] = 15 & 0xff;
+    resources.registers[R_V1] = 16 & 0xff;
+
+    resources.memory[resources.registers[R_PC]] =
+        ((OP_BEQ_R & 0xf) << 12) | // opcode
+        ((R_V0 & 0xf) << 8) |     // dest
+        ((R_V1 & 0xf) << 4) |     // dest
+        (0xf);              // immediate
+
+    ch8_branch_reg(&resources, resources.registers[R_PC], 0);
+    uint16_t found_1 = resources.registers[R_PC];
+
+    free(resources.memory);
+
+    print_results("BEQ reg", expected_0, found_0);
+    print_results("... and", expected_1, found_1);
+    return expected_0 == found_0;
+}
+
+int test_bne_r()
+{
+    struct ch8_resources resources;
+    resources.stack.top = -1;
+    resources.memory = malloc(CH8_INSTALLED_MEMORY);
+
+    uint16_t expected_0 = 0x200;
+
+    resources.registers[R_PC] = 0x200;
+    resources.registers[R_V0] = 15 & 0xff;
+    resources.registers[R_V1] = 15 & 0xff;
+
+    resources.memory[resources.registers[R_PC]] =
+        ((OP_BEQ_R & 0xf) << 12) | // opcode
+        ((R_V0 & 0xf) << 8) |     // dest
+        ((R_V1 & 0xf) << 4) |     // dest
+        (0xf);              // immediate
+
+    ch8_branch_reg(&resources, resources.registers[R_PC], 1);
+    uint16_t found_0 = resources.registers[R_PC];
+
+    uint16_t expected_1 = 0x201;
+
+    resources.registers[R_PC] = 0x200;
+    resources.registers[R_V0] = 15 & 0xff;
+    resources.registers[R_V1] = 16 & 0xff;
+
+    resources.memory[resources.registers[R_PC]] =
+        ((OP_BEQ_R & 0xf) << 12) | // opcode
+        ((R_V0 & 0xf) << 8) |     // dest
+        ((R_V1 & 0xf) << 4) |     // dest
+        (0xf);              // immediate
+
+    ch8_branch_reg(&resources, resources.registers[R_PC], 1);
+    uint16_t found_1 = resources.registers[R_PC];
+
+    free(resources.memory);
+
+    print_results("BNE reg", expected_0, found_0);
+    print_results("... and", expected_1, found_1);
+    return expected_0 == found_0;
+}
+
+
+int test_bne_i()
+{
+    struct ch8_resources resources;
+    resources.stack.top = -1;
+    resources.memory = malloc(CH8_INSTALLED_MEMORY);
+
+    uint16_t expected_0 = 0x200;
+
+    resources.registers[R_PC] = 0x200;
+    resources.registers[R_V0] = 15 & 0xff;
+
+    resources.memory[resources.registers[R_PC]] =
+        ((OP_BNE_I & 0xf) << 12) | // opcode
+        ((R_V0 & 0xf) << 8) |     // dest
+        (15 & 0xff);              // immediate
+
+    ch8_branch_imm(&resources, resources.registers[R_PC], 1);
+    uint16_t found_0 = resources.registers[R_PC];
+
+    uint16_t expected_1 = 0x201;
+
+    resources.registers[R_PC] = 0x200;
+    resources.registers[R_V0] = 15 & 0xff;
+
+    resources.memory[resources.registers[R_PC]] =
+        ((OP_BNE_I & 0xf) << 12) | // opcode
+        ((R_V0 & 0xf) << 8) |     // dest
+        (16 & 0xff);              // immediate
+
+    ch8_branch_imm(&resources, resources.registers[R_PC], 1);
+    uint16_t found_1 = resources.registers[R_PC];
+    free(resources.memory);
+
+    print_results("BNE imm", expected_0, found_0);
+    print_results("... and", expected_1, found_1);
+    return expected_0 == found_0;
+}
+
 int main(void)
 {
     printf("\t\tExp\tFnd\tErr\n");
@@ -119,5 +282,9 @@ int main(void)
     test_jump();
     test_run_sub();
     test_return();
+    test_beq_i();
+    test_bne_i();
+    test_beq_r();
+    test_bne_r();
     printf("\n");
 }

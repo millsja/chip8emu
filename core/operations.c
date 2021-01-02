@@ -50,3 +50,33 @@ void ch8_zero(
         (*clear_screen)(sdl_resources);
         return;
 }
+
+static void branch(struct ch8_resources* resources, uint16_t a, uint16_t b, int branch_if_neq)
+{
+    if ((a == b) && !branch_if_neq)
+    {
+        resources->registers[R_PC]++;
+    }
+    else if ((a != b) && branch_if_neq)
+    {
+        resources->registers[R_PC]++;
+    }
+}
+
+void ch8_branch_imm(struct ch8_resources* resources, uint16_t address, int branch_if_neq)
+{
+    uint16_t reg = ch8_read_with_offset(resources->memory, address, 8) & 0xf;
+    uint16_t imm = ch8_read_with_offset(resources->memory, address, 0) & 0xff;
+    branch(resources, resources->registers[reg], imm, branch_if_neq);
+}
+
+void ch8_branch_reg(struct ch8_resources* resources, uint16_t address, int branch_if_neq)
+{
+    uint16_t reg_0 = ch8_read_with_offset(resources->memory, address, 8) & 0xf;
+    uint16_t reg_1 = ch8_read_with_offset(resources->memory, address, 4) & 0xf;
+    branch(
+            resources,
+            resources->registers[reg_0],
+            resources->registers[reg_1],
+            branch_if_neq);
+}

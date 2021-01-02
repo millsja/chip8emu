@@ -35,4 +35,8 @@ void ch8_zero(
         uint16_t address,
         void (*clear_screen)(struct sdlr_resources*));
 
+void ch8_branch_imm(struct ch8_resources* resources, uint16_t address, int if_not_neq);
+
+void ch8_branch_reg(struct ch8_resources* resources, uint16_t address, int if_not_neq);
+
 #endif

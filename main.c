@@ -38,6 +38,18 @@ int execute_main(struct ch8_resources* resources, struct sdlr_resources* sdl_res
                             resources->registers[R_PC],
                             sdlr_clear_screen);
                     break;
+            case OP_BEQ_I:
+                    ch8_branch_imm(resources, resources->registers[R_PC], 0);
+                    break;
+            case OP_BNE_I:
+                    ch8_branch_imm(resources, resources->registers[R_PC], 1);
+                    break;
+            case OP_BEQ_R:
+                    ch8_branch_reg(resources, resources->registers[R_PC], 0);
+                    break;
+            case OP_BNE_R:
+                    ch8_branch_reg(resources, resources->registers[R_PC], 1);
+                    break;
             default:
                     fprintf(stderr, "Unsupported opcode...\n");
                     break;

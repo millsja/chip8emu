@@ -7,10 +7,10 @@ Simple C implementation of the [Chip-8 interpreter](https://en.wikipedia.org/wik
     [x] 000E  ----  disp_clear()
     [x] 00EE  ----  return;
     [x] 1NNN  ----  goto NNN;
-    [ ] 2NNN  ----  *(0xNNN)()
-    [ ] 3XNN  ----  if(Vx==NN)
-    [ ] 4XNN  ----  if(Vx!=NN)
-    [ ] 5XY0  ----  if(Vx==Vy)
+    [x] 2NNN  ----  *(0xNNN)()
+    [x] 3XNN  ----  if(Vx==NN)
+    [x] 4XNN  ----  if(Vx!=NN)
+    [x] 5XY0  ----  if(Vx==Vy)
     [ ] 6XNN  ----  Vx = NN
     [ ] 7XNN  ----  Vx += NN
     [ ] 8XY0  ----  Vx=Vy
@@ -22,7 +22,7 @@ Simple C implementation of the [Chip-8 interpreter](https://en.wikipedia.org/wik
     [ ] 8XY6  ----  Vx>>=1
     [ ] 8XY7  ----  Vx=Vy-Vx
     [ ] 8XYE  ----  Vx<<=1
-    [ ] 9XY0  ----  if(Vx!=Vy)
+    [x] 9XY0  ----  if(Vx!=Vy)
     [ ] ANNN  ----  I = NNN
     [ ] BNNN  ----  PC=V0+NNN
     [ ] CXNN  ----  Vx=rand()&NN
