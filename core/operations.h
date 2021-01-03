@@ -78,4 +78,6 @@ void ch8_draw_sprite(
 
 void ch8_other(struct ch8_resources* resources, uint16_t address);
 
+void ch8_check_key(struct ch8_resources* resources, uint16_t address);
+
 #endif

@@ -106,6 +106,29 @@ void ch8_move_imm(struct ch8_resources* resources, uint16_t address, int add_and
     resources->registers[reg] = imm + add_value;
 }
 
+void ch8_check_key(struct ch8_resources* resources, uint16_t address)
+{
+    uint16_t mode = ch8_read_with_offset(resources->memory, address, 0) & 0xff;
+    uint16_t src = ch8_read_with_offset(resources->memory, address, 8) & 0xf;
+    uint16_t val_to_check = resources->registers[src];
+    uint16_t key = ch8_get_key_as_hex();
+
+    if (mode == 0x9E && resources->keyboard_flag)
+    {
+        if (key == val_to_check)
+        {
+            resources->registers[R_PC] += 2;
+        }
+    }
+    else if (mode == 0xA1)
+    {
+        if (!resources->keyboard_flag || (key != val_to_check))
+        {
+            resources->registers[R_PC] += 2;
+        }
+    }
+}
+
 void ch8_move_i_imm(struct ch8_resources* resources, uint16_t address)
 {
     uint16_t imm = ch8_read_with_offset(resources->memory, address, 0) & 0xfff;

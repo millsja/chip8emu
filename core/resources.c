@@ -4,9 +4,31 @@
 #include "../sdl/sdlr.h"
 #include "resources.h"
 
-uint16_t ch8_get_keys(struct ch8_resources* resources)
+uint8_t ch8_get_key_as_hex(struct ch8_resources* resources)
 {
-    return resources->keyboard_buffer;
+    uint16_t key = resources->keyboard_buffer;
+    if (key >= 0x30 && key <= 0x39)
+    {
+        return (key & 0xf);
+    }
+
+    switch (key)
+    {
+        case 0x61:
+            return 0xa;
+        case 0x62:
+            return 0xb;
+        case 0x63:
+            return 0xc;
+        case 0x64:
+            return 0xd;
+        case 0x65:
+            return 0xe;
+        case 0x66:
+            return 0xf;
+    }
+
+    return 1 << 7;
 }
 
 void ch8_clear_keys(struct ch8_resources* resources)
@@ -14,7 +36,7 @@ void ch8_clear_keys(struct ch8_resources* resources)
     resources->keyboard_flag = 0;
 }
 
-void ch8_set_key(struct ch8_resources* resources, uint16_t key)
+void ch8_set_key(struct ch8_resources* resources, uint32_t key)
 {
     resources->keyboard_buffer = key;
     resources->keyboard_flag = 1;
@@ -46,6 +68,7 @@ void ch8_execute(
         int user_quit = 0;
         while (!(quit || user_quit))
         {
+            ch8_clear_keys(&resources);
             while(SDL_PollEvent(&e))
             {
                 printf("Event popped from buffer...");

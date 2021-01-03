@@ -85,6 +85,9 @@ int execute_main(struct ch8_resources* resources, struct sdlr_resources* sdl_res
                             ch8_load_sprite_row,
                             sdlr_update_screen);
                     break;
+            case INSTR_BKY:
+                    ch8_check_key(resources, resources->registers[R_PC]);
+                    break;
             case INSTR_OTH:
                     ch8_other(resources, resources->registers[R_PC]);
                     break;

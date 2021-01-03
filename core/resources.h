@@ -34,7 +34,7 @@ struct ch8_resources
     uint8_t* memory;
     struct stk_stack stack;
     uint16_t i_pointer;
-    uint16_t keyboard_buffer;
+    uint32_t keyboard_buffer;
     uint8_t keyboard_flag;
 };
 
@@ -49,15 +49,15 @@ void ch8_execute(
         int argc,
         char* argv[]);
 
-// name: ch8_get_key
+// name: ch8_get_key_as_hex
 // desc: takes key off the keyboard buffer. does NOT
 //       clear the buffer. see ch8_clear_keys.
-uint16_t ch8_get_key(struct ch8_resources* resources);
+uint8_t ch8_get_key_as_hex(struct ch8_resources* resources);
 
 // name: ch8_set_key
 // desc: adds key to the keyboard buffer and sets the
 //       keyboard_flag to true;
-uint16_t ch8_get_key(struct ch8_resources* resources);
+void ch8_set_key(struct ch8_resources* resources, uint32_t key);
 
 // name: ch8_clear_keys
 // desc: sets keyboard_flag to false. however, it 
