@@ -35,7 +35,11 @@ void ch8_execute(
                 printf("Event popped from buffer...");
                 if(e.type == SDL_QUIT)
                 {
-                        user_quit = 1;
+                    user_quit = 1;
+                }
+                else if (e.type == SDL_KEYDOWN)
+                {
+                    ch8_set_key(e.key.keysym.sym);
                 }
             }
 
@@ -49,4 +53,20 @@ void ch8_execute(
     }
 
     free(resources.memory);
+}
+
+uint16_t ch8_get_keys(struct ch8_resources* resources)
+{
+    return resources->keyboard_buffer;
+}
+
+void ch8_clear_keys(struct ch8_resources* resources)
+{
+    resources->keyboard_flag = 0;
+}
+
+void ch8_set_key(struct ch8_resources* resources, uint16_t key)
+{
+    resources->keyboard_buffer = key;
+    resources->keyboard_flag = 1;
 }
