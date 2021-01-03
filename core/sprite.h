@@ -6,11 +6,10 @@
 //       sprite to that array. Sprite takes the form of
 //       a series of 8-bit rows, which describe whether
 //       the corresponding pixel is set or unset.
-void ch8_draw_sprite(
+int ch8_load_sprite_row(
         uint32_t* pixels,
         int offset_x,
         int offset_y,
-        uint8_t* sprite,
-        int len);
+        uint8_t sprite);
 
 #endif

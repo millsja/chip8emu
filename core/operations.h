@@ -47,6 +47,8 @@ void ch8_add_imm(struct ch8_resources* resources, uint16_t address);
 
 void ch8_jump(struct ch8_resources* resources, uint16_t address);
 
+void ch8_jump_reg(struct ch8_resources* resources, uint16_t address);
+
 void ch8_run_sub(struct ch8_resources* resources, uint16_t address);
 
 void ch8_zero(
@@ -64,5 +66,12 @@ void ch8_move_imm(struct ch8_resources* resources, uint16_t address, int add_and
 void ch8_move_rnd(struct ch8_resources* resources, uint16_t address);
 
 void ch8_operate(struct ch8_resources* resources, uint16_t address);
+
+void ch8_draw_sprite(
+        struct ch8_resources* resources,
+        struct sdlr_resources* sdl_resources,
+        uint16_t address,
+        int (*draw_sprite)(uint32_t*, int, int, uint8_t),
+        void (*update_screen)(struct sdlr_resources*));
 
 #endif

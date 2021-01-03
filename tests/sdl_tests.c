@@ -10,7 +10,10 @@
 void mess_with_pixels(uint32_t* pixels)
 {
     uint8_t sprite[] = {0x3c, 0x62, 0xc0, 0xc0, 0xde, 0xd2, 0xc2, 0x66, 0x3c, 0x00, 0x00};
-    ch8_draw_sprite(pixels, 0, 0, sprite, 11);
+    for(int i = 0; i < 11; i++)
+    {
+        ch8_load_sprite_row(pixels, 0, i, sprite[i]);
+    }
 }
 
 int execute_main(
@@ -21,7 +24,7 @@ int execute_main(
     sdlr_update_screen(sdl_resources);
     SDL_Delay(1000);
     resources->memory[resources->registers[R_PC]] =
-            ((OP_ZER & 0xf) << 12) | // opcode
+            ((INSTR_ZER & 0xf) << 12) | // opcode
              (0x0e0 & 0xfff);          // immediate
     ch8_zero(
             resources,

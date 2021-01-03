@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "sdl/sdlr.h"
+#include "core/sprite.h"
 #include "core/resources.h"
 #include "core/operations.h"
 #include "core/asmio.h"
@@ -26,7 +27,10 @@ void set_up_main(
 
 int execute_main(struct ch8_resources* resources, struct sdlr_resources* sdl_resources)
 {
-    uint16_t op = ch8_read_with_offset(resources->memory, resources->registers[R_PC], 12);
+    uint16_t op = ch8_read_with_offset(
+            resources->memory,
+            resources->registers[R_PC],
+            12) & 0xf;
 
     switch (op)
     {
@@ -35,6 +39,9 @@ int execute_main(struct ch8_resources* resources, struct sdlr_resources* sdl_res
                     break;
             case INSTR_JMP_I:
                     ch8_jump(resources, resources->registers[R_PC]);
+                    break;
+            case INSTR_JMP_R:
+                    ch8_jump_reg(resources, resources->registers[R_PC]);
                     break;
             case INSTR_RUN:
                     ch8_run_sub(resources, resources->registers[R_PC]);
@@ -67,20 +74,38 @@ int execute_main(struct ch8_resources* resources, struct sdlr_resources* sdl_res
             case INSTR_RND:
                     ch8_move_rnd(resources, resources->registers[R_PC]);
                     break;
+            case INSTR_DRW:
+                    ch8_draw_sprite(
+                            resources,
+                            sdl_resources,
+                            resources->registers[R_PC],
+                            ch8_load_sprite_row,
+                            sdlr_update_screen);
+                    break;
             default:
                     if (DEBUG_MODE)
                     {
-                        fprintf(stderr, "Unsupported opcode: %x...\n", op);
+                        fprintf(stderr, "Unsupported opcode %x: ", op);
                         op = ch8_read_with_offset(
                                 resources->memory,
                                 resources->registers[R_PC],
                                 0);
-                        fprintf(stderr, "...%x\n", op);
+                        fprintf(stderr, "%x\n", op);
                     }
                     break;
     }
     
-    resources->registers[R_PC]++;
+    if (DEBUG_MODE)
+    {
+        fprintf(stderr, "Instr %x: ", op);
+        op = ch8_read_with_offset(
+                resources->memory,
+                resources->registers[R_PC],
+                0);
+        fprintf(stderr, "%x\n", op);
+    }
+
+    resources->registers[R_PC] += 2;
     return 0;
 }
 

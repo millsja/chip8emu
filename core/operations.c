@@ -9,7 +9,14 @@
 void ch8_jump(struct ch8_resources* resources, uint16_t address)
 {
     uint16_t dest = ch8_read_with_offset(resources->memory, address, 0) & 0xfff;
-    resources->registers[R_PC] = --dest;
+    resources->registers[R_PC] = dest - 2;
+}
+
+void ch8_jump_reg(struct ch8_resources* resources, uint16_t address)
+{
+    uint16_t jmp_offset = ch8_read_with_offset(resources->memory, address, 0) & 0xfff;
+    uint16_t dest = resources->registers[R_V0] + jmp_offset;
+    resources->registers[R_PC] = dest - 2;
 }
 
 void ch8_run_sub(struct ch8_resources* resources, uint16_t address)
@@ -36,7 +43,7 @@ void ch8_zero(
         if (second_byte == 0xEE)
         {
             uint16_t popped_address = stk_pop(&(resources->stack));
-            resources->registers[R_PC] = --popped_address;
+            resources->registers[R_PC] = popped_address - 2;
             return;
         }
 
@@ -141,3 +148,30 @@ void ch8_operate(struct ch8_resources* resources, uint16_t address)
             break;
     }
 }
+
+void ch8_draw_sprite(
+        struct ch8_resources* resources,
+        struct sdlr_resources* sdl_resources,
+        uint16_t address,
+        int (*draw_sprite)(uint32_t*, int, int, uint8_t),
+        void (*update_screen)(struct sdlr_resources*))
+{
+    uint16_t x_coord = ch8_read_with_offset(resources->memory, address, 8) & 0xf;
+    uint16_t y_coord = ch8_read_with_offset(resources->memory, address, 4) & 0xf;
+    uint16_t height = ch8_read_with_offset(resources->memory, address, 0) & 0xf;
+
+    int pixel_flipped = 0;
+    uint8_t sprite_row = 0;
+    for (int i = 0; i < height + 1; i++)
+    {
+        sprite_row = ch8_read_with_offset(
+                resources->memory,
+                resources->i_pointer + i,
+                0) & 0xfff;
+        pixel_flipped |= (*draw_sprite)(sdl_resources->texture_pixels, x_coord, y_coord + i, sprite_row);
+    }
+
+    resources->registers[R_VF] = pixel_flipped;
+    (*update_screen)(sdl_resources);
+}
+

@@ -31,8 +31,9 @@ enum ch8_registers_enum
 struct ch8_resources
 {
     uint16_t registers[R_COUNT];
-    uint16_t* memory;
+    uint8_t* memory;
     struct stk_stack stack;
+    uint16_t i_pointer;
 };
 
 void ch8_execute(

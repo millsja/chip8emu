@@ -8,24 +8,20 @@ static int set_pixel(uint32_t* pixels, int x, int y)
     return temp && *pixel;
 }
 
-int ch8_draw_sprite(
+int ch8_load_sprite_row(
         uint32_t* pixels,
         int offset_x,
         int offset_y,
-        uint8_t* sprite,
-        int len)
+        uint8_t sprite)
 {
     int flip_occurred = 0;
     uint8_t is_pixel_set = 0;
-    for (int y = 0; y < len; y++)
+    for (int x = 0; x < 8; x++)
     {
-        for (int x = 0; x < 8; x++)
+        is_pixel_set = (sprite >> (7 - x)) & 0x01;
+        if (is_pixel_set)
         {
-            is_pixel_set = (sprite[y] >> (7 - x)) & 0x01;
-            if (is_pixel_set)
-            {
-                flip_occurred |= set_pixel(pixels, x + offset_x, y + offset_y);
-            }
+            flip_occurred |= set_pixel(pixels, x + offset_x, offset_y);
         }
     }
 
