@@ -1,0 +1,7 @@
+h_count=$(find . -name "*.h" -type f -exec wc -w {} + | tail -n1 | awk '{print $1;}')
+c_count=$(find . -name "*.c" -type f -exec wc -w {} + | tail -n1 | awk '{print $1;}')
+printf "\n#### project stats ####\n"
+printf "header lines \t %d\n" $h_count
+printf "source lines \t %d\n" $c_count
+printf "total lines \t %d\n" $(expr $h_count + $c_count)
+printf "\n"
