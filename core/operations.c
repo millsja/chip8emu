@@ -31,9 +31,9 @@ void ch8_zero(
         uint16_t address,
         void (*clear_screen)(struct sdlr_resources*))
 {
-	uint16_t second_word = ch8_read_with_offset(resources->memory, address, 8) & 0xf;
+	uint16_t second_nibble = ch8_read_with_offset(resources->memory, address, 8) & 0xf;
 
-        if (second_word >= 1)
+        if (second_nibble >= 1)
         {
             // NOT YET IMPLEMENTED
             return;
@@ -55,11 +55,11 @@ static void branch(struct ch8_resources* resources, uint16_t a, uint16_t b, int 
 {
     if ((a == b) && !branch_if_neq)
     {
-        resources->registers[R_PC]++;
+        resources->registers[R_PC] += 2;
     }
     else if ((a != b) && branch_if_neq)
     {
-        resources->registers[R_PC]++;
+        resources->registers[R_PC] += 2;
     }
 }
 
@@ -164,10 +164,9 @@ void ch8_draw_sprite(
     uint8_t sprite_row = 0;
     for (int i = 0; i < height + 1; i++)
     {
-        sprite_row = ch8_read_with_offset(
+        sprite_row = ch8_read_byte(
                 resources->memory,
-                resources->i_pointer + i,
-                0) & 0xfff;
+                resources->i_pointer + i);
         pixel_flipped |= (*draw_sprite)(sdl_resources->texture_pixels, x_coord, y_coord + i, sprite_row);
     }
 

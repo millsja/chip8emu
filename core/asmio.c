@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <stdint.h>
 
-static uint8_t read_from_memory(uint8_t memory[], uint16_t address)
+uint8_t ch8_read_byte(uint8_t memory[], uint16_t address)
 {
 	return memory[address];
 }
 
 uint16_t ch8_read_with_offset(uint8_t memory[], uint16_t address, int offset)
 {
-	uint16_t instr = read_from_memory(memory, address) << 8;
-	instr |= read_from_memory(memory, address + 1);
+	uint16_t instr = ch8_read_byte(memory, address) << 8;
+	instr |= ch8_read_byte(memory, address + 1);
 	return instr >> offset;
 }
 
