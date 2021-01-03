@@ -51,6 +51,23 @@ void ch8_zero(
         return;
 }
 
+void ch8_other(struct ch8_resources* resources, uint16_t address)
+{
+	uint16_t second_byte = ch8_read_with_offset(resources->memory, address, 0) & 0xff;
+        if (second_byte == 0x1E)
+        {
+            uint16_t src = ch8_read_with_offset(resources->memory, address, 8) & 0xf;
+            resources->i_pointer += resources->registers[src];
+            return;
+        }
+
+        // NOT YET IMPLEMENTED
+        uint16_t first_nibble = ch8_read_with_offset(resources->memory, address, 0) & 0xf;
+        uint16_t instr = ch8_read_with_offset(resources->memory, address, 0) & 0xffff;
+        fprintf(stderr, "Mode not implemented %x: %x\n", first_nibble, instr);
+        return;
+}
+
 static void branch(struct ch8_resources* resources, uint16_t a, uint16_t b, int branch_if_neq)
 {
     if ((a == b) && !branch_if_neq)
@@ -87,6 +104,12 @@ void ch8_move_imm(struct ch8_resources* resources, uint16_t address, int add_and
     uint16_t imm = ch8_read_with_offset(resources->memory, address, 0) & 0xff;
     uint16_t add_value = add_and_store ? resources->registers[reg] : 0;
     resources->registers[reg] = imm + add_value;
+}
+
+void ch8_move_i_imm(struct ch8_resources* resources, uint16_t address)
+{
+    uint16_t imm = ch8_read_with_offset(resources->memory, address, 0) & 0xfff;
+    resources->i_pointer = imm;
 }
 
 void ch8_move_rnd(struct ch8_resources* resources, uint16_t address)
@@ -156,8 +179,10 @@ void ch8_draw_sprite(
         int (*draw_sprite)(uint32_t*, int, int, uint8_t),
         void (*update_screen)(struct sdlr_resources*))
 {
-    uint16_t x_coord = ch8_read_with_offset(resources->memory, address, 8) & 0xf;
-    uint16_t y_coord = ch8_read_with_offset(resources->memory, address, 4) & 0xf;
+    uint16_t x_reg = ch8_read_with_offset(resources->memory, address, 8) & 0xf;
+    uint16_t y_reg = ch8_read_with_offset(resources->memory, address, 4) & 0xf;
+    uint16_t x_coord = resources->registers[x_reg];
+    uint16_t y_coord = resources->registers[y_reg];
     uint16_t height = ch8_read_with_offset(resources->memory, address, 0) & 0xf;
 
     int pixel_flipped = 0;

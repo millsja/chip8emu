@@ -71,6 +71,9 @@ int execute_main(struct ch8_resources* resources, struct sdlr_resources* sdl_res
             case INSTR_OPR:
                     ch8_operate(resources, resources->registers[R_PC]);
                     break;
+            case INSTR_MOV_IPT_I:
+                    ch8_move_i_imm(resources, resources->registers[R_PC]);
+                    break;
             case INSTR_RND:
                     ch8_move_rnd(resources, resources->registers[R_PC]);
                     break;
@@ -81,6 +84,9 @@ int execute_main(struct ch8_resources* resources, struct sdlr_resources* sdl_res
                             resources->registers[R_PC],
                             ch8_load_sprite_row,
                             sdlr_update_screen);
+                    break;
+            case INSTR_OTH:
+                    ch8_other(resources, resources->registers[R_PC]);
                     break;
             default:
                     if (DEBUG_MODE)

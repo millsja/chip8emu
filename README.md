@@ -23,17 +23,17 @@ Simple C implementation of the [Chip-8 interpreter](https://en.wikipedia.org/wik
     [t] 8XY7  ----  Vx=Vy-Vx
     [t] 8XYE  ----  Vx<<=1
     [x] 9XY0  ----  if(Vx!=Vy)
-    [ ] ANNN  ----  I = NNN
+    [t] ANNN  ----  I = NNN
     [ ] BNNN  ----  PC=V0+NNN
     [x] CXNN  ----  Vx=rand()&NN
-    [ ] DXYN  ----  draw(Vx,Vy,N)
+    [x] DXYN  ----  draw(Vx,Vy,N)
     [ ] EX9E  ----  if(key()==Vx)
     [ ] EXA1  ----  if(key()!=Vx)
     [ ] FX07  ----  Vx = get_delay()
     [ ] FX0A  ----  Vx = get_key()
     [ ] FX15  ----  delay_timer(Vx)
     [ ] FX18  ----  sound_timer(Vx)
-    [ ] FX1E  ----  I +=Vx
+    [t] FX1E  ----  I +=Vx
     [ ] FX29  ----  I=sprite_addr[Vx]
     [ ] FX33  ----  "set_BCD(Vx); *(I+0)=BCD(3); *(I+1)=BCD(2); *(I+2)=BCD(1);"
     [ ] FX55  ----  reg_dump(Vx,&I)

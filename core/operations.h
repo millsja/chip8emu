@@ -15,7 +15,7 @@ typedef enum opcode_t
     INSTR_ADD_I,
     INSTR_OPR,
     INSTR_BNE_R,
-    INSTR_STR_PC,
+    INSTR_MOV_IPT_I,
     INSTR_JMP_R,
     INSTR_RND,
     INSTR_DRW,
@@ -65,6 +65,8 @@ void ch8_move_imm(struct ch8_resources* resources, uint16_t address, int add_and
 
 void ch8_move_rnd(struct ch8_resources* resources, uint16_t address);
 
+void ch8_move_i_imm(struct ch8_resources* resources, uint16_t address);
+
 void ch8_operate(struct ch8_resources* resources, uint16_t address);
 
 void ch8_draw_sprite(
@@ -73,5 +75,7 @@ void ch8_draw_sprite(
         uint16_t address,
         int (*draw_sprite)(uint32_t*, int, int, uint8_t),
         void (*update_screen)(struct sdlr_resources*));
+
+void ch8_other(struct ch8_resources* resources, uint16_t address);
 
 #endif
