@@ -4,6 +4,22 @@
 #include "../sdl/sdlr.h"
 #include "resources.h"
 
+uint16_t ch8_get_keys(struct ch8_resources* resources)
+{
+    return resources->keyboard_buffer;
+}
+
+void ch8_clear_keys(struct ch8_resources* resources)
+{
+    resources->keyboard_flag = 0;
+}
+
+void ch8_set_key(struct ch8_resources* resources, uint16_t key)
+{
+    resources->keyboard_buffer = key;
+    resources->keyboard_flag = 1;
+}
+
 void ch8_execute(
         struct sdlr_screen* screen_info,
         void (*set_up)(struct ch8_resources*, struct sdlr_resources*, int, char**),
@@ -39,7 +55,7 @@ void ch8_execute(
                 }
                 else if (e.type == SDL_KEYDOWN)
                 {
-                    ch8_set_key(e.key.keysym.sym);
+                    ch8_set_key(&resources, e.key.keysym.sym);
                 }
             }
 
@@ -53,20 +69,4 @@ void ch8_execute(
     }
 
     free(resources.memory);
-}
-
-uint16_t ch8_get_keys(struct ch8_resources* resources)
-{
-    return resources->keyboard_buffer;
-}
-
-void ch8_clear_keys(struct ch8_resources* resources)
-{
-    resources->keyboard_flag = 0;
-}
-
-void ch8_set_key(struct ch8_resources* resources, uint16_t key)
-{
-    resources->keyboard_buffer = key;
-    resources->keyboard_flag = 1;
 }
