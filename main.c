@@ -29,67 +29,67 @@ int execute_main(struct ch8_resources* resources, struct sdlr_resources* sdl_res
 {
     uint16_t op = ch8_read_with_offset(
             resources->memory,
-            resources->registers[R_PC],
+            resources->pc,
             12) & 0xf;
 
     switch (op)
     {
             case INSTR_ADD_I:
-                    ch8_move_imm(resources, resources->registers[R_PC], 1);
+                    ch8_move_imm(resources, resources->pc, 1);
                     break;
             case INSTR_JMP_I:
-                    ch8_jump(resources, resources->registers[R_PC]);
+                    ch8_jump(resources, resources->pc);
                     break;
             case INSTR_JMP_R:
-                    ch8_jump_reg(resources, resources->registers[R_PC]);
+                    ch8_jump_reg(resources, resources->pc);
                     break;
             case INSTR_RUN:
-                    ch8_run_sub(resources, resources->registers[R_PC]);
+                    ch8_run_sub(resources, resources->pc);
                     break;
             case INSTR_ZER:
                     ch8_zero(
                             resources,
                             sdl_resources,
-                            resources->registers[R_PC],
+                            resources->pc,
                             sdlr_clear_screen);
                     break;
             case INSTR_BEQ_I:
-                    ch8_branch_imm(resources, resources->registers[R_PC], 0);
+                    ch8_branch_imm(resources, resources->pc, 0);
                     break;
             case INSTR_BNE_I:
-                    ch8_branch_imm(resources, resources->registers[R_PC], 1);
+                    ch8_branch_imm(resources, resources->pc, 1);
                     break;
             case INSTR_BEQ_R:
-                    ch8_branch_reg(resources, resources->registers[R_PC], 0);
+                    ch8_branch_reg(resources, resources->pc, 0);
                     break;
             case INSTR_MOV_I:
-                    ch8_move_imm(resources, resources->registers[R_PC], 0);
+                    ch8_move_imm(resources, resources->pc, 0);
                     break;
             case INSTR_BNE_R:
-                    ch8_branch_reg(resources, resources->registers[R_PC], 1);
+                    ch8_branch_reg(resources, resources->pc, 1);
                     break;
             case INSTR_OPR:
-                    ch8_operate(resources, resources->registers[R_PC]);
+                    ch8_operate(resources, resources->pc);
                     break;
-            case INSTR_MOV_IPT_I:
-                    ch8_move_i_imm(resources, resources->registers[R_PC]);
+            case INSTR_MOV_AP_I:
+                    ch8_move_i_imm(resources, resources->pc);
                     break;
             case INSTR_RND:
-                    ch8_move_rnd(resources, resources->registers[R_PC]);
+                    ch8_move_rnd(resources, resources->pc);
                     break;
             case INSTR_DRW:
                     ch8_draw_sprite(
                             resources,
                             sdl_resources,
-                            resources->registers[R_PC],
+                            resources->pc,
                             ch8_load_sprite_row,
                             sdlr_update_screen);
                     break;
             case INSTR_BKY:
-                    ch8_check_key(resources, resources->registers[R_PC]);
+                    ch8_check_key(resources, resources->pc);
                     break;
             case INSTR_OTH:
-                    ch8_other(resources, resources->registers[R_PC]);
+                    ch8_other(resources, resources->pc);
                     break;
             default:
                     if (DEBUG_MODE)
@@ -97,7 +97,7 @@ int execute_main(struct ch8_resources* resources, struct sdlr_resources* sdl_res
                         fprintf(stderr, "Unsupported opcode %x: ", op);
                         op = ch8_read_with_offset(
                                 resources->memory,
-                                resources->registers[R_PC],
+                                resources->pc,
                                 0);
                         fprintf(stderr, "%x\n", op);
                     }
@@ -109,12 +109,12 @@ int execute_main(struct ch8_resources* resources, struct sdlr_resources* sdl_res
         fprintf(stderr, "Instr %x: ", op);
         op = ch8_read_with_offset(
                 resources->memory,
-                resources->registers[R_PC],
+                resources->pc,
                 0);
         fprintf(stderr, "%x\n", op);
     }
 
-    resources->registers[R_PC] += 2;
+    resources->pc += 2;
     return 0;
 }
 

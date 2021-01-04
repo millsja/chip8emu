@@ -15,7 +15,7 @@ typedef enum opcode_t
     INSTR_ADD_I,
     INSTR_OPR,
     INSTR_BNE_R,
-    INSTR_MOV_IPT_I,
+    INSTR_MOV_AP_I,
     INSTR_JMP_R,
     INSTR_RND,
     INSTR_DRW,

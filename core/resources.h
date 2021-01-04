@@ -2,11 +2,12 @@
 #define CH8RESOURCES_H
 
 #define CH8_INSTALLED_MEMORY 4096 // bytes
+#define CH8_CLOCK_RATE 500 // hz 
 
 #include "../utilities/stack.h"
 #include "../sdl/sdlr.h"
 
-enum ch8_registers_enum
+enum ch8_pcenum
 {
 	R_V0 = 0,
 	R_V1,
@@ -24,18 +25,20 @@ enum ch8_registers_enum
 	R_VD,
 	R_VE,
 	R_VF,
-	R_PC,
 	R_COUNT,
 };
 
 struct ch8_resources
 {
-    uint16_t registers[R_COUNT];
+    uint16_t pc;
+    uint8_t registers[R_COUNT];
     uint8_t* memory;
     struct stk_stack stack;
-    uint16_t i_pointer;
+    uint16_t address_pointer;
     uint32_t keyboard_buffer;
     uint8_t keyboard_flag;
+    unsigned int clock_rate;
+    uint32_t timer_tick;
 };
 
 // name: ch8_execute
@@ -64,5 +67,9 @@ void ch8_set_key(struct ch8_resources* resources, uint32_t key);
 //       doesn't actually do anything to values in
 //       buffer otherwise
 void ch8_clear_keys(struct ch8_resources* resources);
+
+uint16_t ch8_get_timer(struct ch8_resources* resources);
+
+void ch8_set_timer(struct ch8_resources* resources, uint16_t timer_val);
 
 #endif

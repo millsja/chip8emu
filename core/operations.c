@@ -9,14 +9,14 @@
 void ch8_jump(struct ch8_resources* resources, uint16_t address)
 {
     uint16_t dest = ch8_read_with_offset(resources->memory, address, 0) & 0xfff;
-    resources->registers[R_PC] = dest - 2;
+    resources->pc = dest - 2;
 }
 
 void ch8_jump_reg(struct ch8_resources* resources, uint16_t address)
 {
     uint16_t jmp_offset = ch8_read_with_offset(resources->memory, address, 0) & 0xfff;
     uint16_t dest = resources->registers[R_V0] + jmp_offset;
-    resources->registers[R_PC] = dest - 2;
+    resources->pc = dest - 2;
 }
 
 void ch8_run_sub(struct ch8_resources* resources, uint16_t address)
@@ -43,7 +43,7 @@ void ch8_zero(
         if (second_byte == 0xEE)
         {
             uint16_t popped_address = stk_pop(&(resources->stack));
-            resources->registers[R_PC] = popped_address - 2;
+            resources->pc = popped_address;
             return;
         }
 
@@ -54,11 +54,43 @@ void ch8_zero(
 void ch8_other(struct ch8_resources* resources, uint16_t address)
 {
 	uint16_t second_byte = ch8_read_with_offset(resources->memory, address, 0) & 0xff;
-        if (second_byte == 0x1E)
+        uint16_t second_nibble = ch8_read_with_offset(resources->memory, address, 8) & 0xf;
+        uint16_t reg_val = resources->registers[second_nibble];
+        uint16_t timer_val = 0;
+
+        switch (second_byte)
         {
-            uint16_t src = ch8_read_with_offset(resources->memory, address, 8) & 0xf;
-            resources->i_pointer += resources->registers[src];
-            return;
+            // check timer
+            case 0x07:
+                timer_val = ch8_get_timer(resources);
+                resources->registers[second_nibble] = timer_val;
+                return;
+
+            // move address pointer
+            case 0x1e:
+                resources->address_pointer += resources->registers[second_nibble];
+                return;
+            
+            // set timer
+            case 0x15:
+                ch8_set_timer(resources, reg_val);
+                return;
+
+            // reg dump
+            case 0x55:
+                for (int i = 0; i <= reg_val; i++)
+                {
+                    resources->memory[resources->address_pointer + i] = resources->registers[i];
+                }
+                return;
+
+            // reg load
+            case 0x65:
+                for (int i = 0; i <= reg_val; i++)
+                {
+                     resources->registers[i] = resources->memory[resources->address_pointer + i];
+                }
+                return;
         }
 
         // NOT YET IMPLEMENTED
@@ -72,11 +104,11 @@ static void branch(struct ch8_resources* resources, uint16_t a, uint16_t b, int 
 {
     if ((a == b) && !branch_if_neq)
     {
-        resources->registers[R_PC] += 2;
+        resources->pc += 2;
     }
     else if ((a != b) && branch_if_neq)
     {
-        resources->registers[R_PC] += 2;
+        resources->pc += 2;
     }
 }
 
@@ -111,20 +143,20 @@ void ch8_check_key(struct ch8_resources* resources, uint16_t address)
     uint16_t mode = ch8_read_with_offset(resources->memory, address, 0) & 0xff;
     uint16_t src = ch8_read_with_offset(resources->memory, address, 8) & 0xf;
     uint16_t val_to_check = resources->registers[src];
-    uint16_t key = ch8_get_key_as_hex();
+    uint16_t key = ch8_get_key_as_hex(resources);
 
     if (mode == 0x9E && resources->keyboard_flag)
     {
         if (key == val_to_check)
         {
-            resources->registers[R_PC] += 2;
+            resources->pc += 2;
         }
     }
     else if (mode == 0xA1)
     {
         if (!resources->keyboard_flag || (key != val_to_check))
         {
-            resources->registers[R_PC] += 2;
+            resources->pc += 2;
         }
     }
 }
@@ -132,7 +164,7 @@ void ch8_check_key(struct ch8_resources* resources, uint16_t address)
 void ch8_move_i_imm(struct ch8_resources* resources, uint16_t address)
 {
     uint16_t imm = ch8_read_with_offset(resources->memory, address, 0) & 0xfff;
-    resources->i_pointer = imm;
+    resources->address_pointer = imm;
 }
 
 void ch8_move_rnd(struct ch8_resources* resources, uint16_t address)
@@ -214,7 +246,7 @@ void ch8_draw_sprite(
     {
         sprite_row = ch8_read_byte(
                 resources->memory,
-                resources->i_pointer + i);
+                resources->address_pointer + i);
         pixel_flipped |= (*draw_sprite)(sdl_resources->texture_pixels, x_coord, y_coord + i, sprite_row);
     }
 
