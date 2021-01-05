@@ -9,6 +9,7 @@ struct sdlr_resources
     SDL_Renderer* renderer;
     SDL_Texture* window_texture;
     uint32_t* texture_pixels;
+    int texture_pixels_width;
 };
 
 struct sdlr_screen

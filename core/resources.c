@@ -6,7 +6,7 @@
 
 static uint32_t get_interval_time(struct ch8_resources* resources)
 {
-    return 5000/resources->clock_rate;
+    return 1000/resources->clock_rate;
 }
 
 uint16_t ch8_get_timer(struct ch8_resources* resources)
@@ -54,7 +54,7 @@ uint8_t ch8_get_key_as_hex(struct ch8_resources* resources)
 
 void ch8_clear_keys(struct ch8_resources* resources)
 {
-    // resources->keyboard_flag = 0;
+    resources->keyboard_flag = 0;
 }
 
 void ch8_set_key(struct ch8_resources* resources, uint32_t key)
@@ -89,6 +89,7 @@ void ch8_execute(
         int quit = 0;
         int user_quit = 0;
         uint32_t last_tick = 0;
+        uint32_t last_keycheck_tick = 0;
         while (!(quit || user_quit))
         {
             uint32_t ticks = SDL_GetTicks();
@@ -98,11 +99,15 @@ void ch8_execute(
                 SDL_Delay(interval_time - (ticks - last_tick));
             }
 
+            if ((ticks - last_keycheck_tick) >= interval_time * 3)
+            {
+                ch8_clear_keys(&resources);
+            }
+
             last_tick = ticks;
-            ch8_clear_keys(&resources);
+            last_keycheck_tick = ticks;
             while(SDL_PollEvent(&e))
             {
-                printf("Event popped from buffer...");
                 if(e.type == SDL_QUIT)
                 {
                     user_quit = 1;

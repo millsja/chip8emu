@@ -56,6 +56,7 @@ struct sdlr_resources* sdlr_init(struct sdlr_screen* screen_info)
 
     resources->texture_pixels = malloc(screen_info->logical_width * screen_info->logical_height * sizeof(uint32_t));
     memset(resources->texture_pixels, 0, screen_info->logical_width * screen_info->logical_height * sizeof(uint32_t));
+    resources->texture_pixels_width = screen_info->logical_width * screen_info->logical_height * sizeof(uint32_t);
 
     return resources;
 }
@@ -93,4 +94,6 @@ void sdlr_clear_screen(struct sdlr_resources* resources)
     SDL_UpdateWindowSurface(resources->window);
 
     SDL_FreeSurface(window_surface);
+
+    memset(resources->texture_pixels, 0, resources->texture_pixels_width);
 }

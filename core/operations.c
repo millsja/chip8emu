@@ -96,7 +96,7 @@ void ch8_other(struct ch8_resources* resources, uint16_t address)
         // NOT YET IMPLEMENTED
         uint16_t first_nibble = ch8_read_with_offset(resources->memory, address, 0) & 0xf;
         uint16_t instr = ch8_read_with_offset(resources->memory, address, 0) & 0xffff;
-        fprintf(stderr, "Mode not implemented %x: %x\n", first_nibble, instr);
+        fprintf(stderr, "Mode not implemented at %x: %x\n", address, instr);
         return;
 }
 
@@ -222,7 +222,7 @@ void ch8_operate(struct ch8_resources* resources, uint16_t address)
             resources->registers[dst] = d_val << 1;
             break;
         default:
-            fprintf(stderr, "Operate mode not implemented: %x\n", operation);
+            fprintf(stderr, "Operate mode not implemented at %x: %x\n", address, operation);
             break;
     }
 }
@@ -242,7 +242,7 @@ void ch8_draw_sprite(
 
     int pixel_flipped = 0;
     uint8_t sprite_row = 0;
-    for (int i = 0; i < height + 1; i++)
+    for (int i = 0; i < height; i++)
     {
         sprite_row = ch8_read_byte(
                 resources->memory,

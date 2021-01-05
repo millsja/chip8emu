@@ -94,7 +94,7 @@ int execute_main(struct ch8_resources* resources, struct sdlr_resources* sdl_res
             default:
                     if (DEBUG_MODE)
                     {
-                        fprintf(stderr, "Unsupported opcode %x: ", op);
+                        fprintf(stderr, "Unsupported opcode at %x, %x: ", resources->pc, op);
                         op = ch8_read_with_offset(
                                 resources->memory,
                                 resources->pc,
@@ -104,15 +104,15 @@ int execute_main(struct ch8_resources* resources, struct sdlr_resources* sdl_res
                     break;
     }
     
-    if (DEBUG_MODE)
-    {
-        fprintf(stderr, "Instr %x: ", op);
-        op = ch8_read_with_offset(
-                resources->memory,
-                resources->pc,
-                0);
-        fprintf(stderr, "%x\n", op);
-    }
+    // if (DEBUG_MODE)
+    // {
+    //     fprintf(stderr, "Instr %x: ", op);
+    //     op = ch8_read_with_offset(
+    //             resources->memory,
+    //             resources->pc,
+    //             0);
+    //     fprintf(stderr, "%x\n", op);
+    // }
 
     resources->pc += 2;
     return 0;
