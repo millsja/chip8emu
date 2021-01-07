@@ -78,7 +78,7 @@ void ch8_other(struct ch8_resources* resources, uint16_t address)
 
             // reg dump
             case 0x55:
-                for (int i = 0; i <= reg_val; i++)
+                for (int i = 0; i <= second_nibble; i++)
                 {
                     resources->memory[resources->address_pointer + i] = resources->registers[i];
                 }
@@ -86,7 +86,7 @@ void ch8_other(struct ch8_resources* resources, uint16_t address)
 
             // reg load
             case 0x65:
-                for (int i = 0; i <= reg_val; i++)
+                for (int i = 0; i <= second_nibble; i++)
                 {
                      resources->registers[i] = resources->memory[resources->address_pointer + i];
                 }
