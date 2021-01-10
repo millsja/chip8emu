@@ -2,7 +2,7 @@
 #define CH8RESOURCES_H
 
 #define CH8_INSTALLED_MEMORY 4096 // bytes
-#define CH8_CLOCK_RATE 600 // hz 
+#define CH8_CLOCK_RATE 5000 // hz 
 
 #include "../utilities/stack.h"
 #include "../sdl/sdlr.h"

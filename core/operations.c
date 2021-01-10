@@ -206,7 +206,7 @@ void ch8_operate(struct ch8_resources* resources, uint16_t address)
         case OP_SUB:
             output = d_val - s_val;
             resources->registers[dst] = output & 0xff;
-            resources->registers[R_VF] = output < 0;
+            resources->registers[R_VF] = output > 0;
             break;
         case OP_SHIFT_R:
             resources->registers[R_VF] = resources->registers[dst] & 0x1;
@@ -215,7 +215,7 @@ void ch8_operate(struct ch8_resources* resources, uint16_t address)
         case OP_SUB_REV:
             output = s_val - d_val;
             resources->registers[dst] = output & 0xff;
-            resources->registers[R_VF] = output < 0;
+            resources->registers[R_VF] = output > 0;
             break;
         case OP_SHIFT_L:
             resources->registers[R_VF] = (resources->registers[dst] >> 14) & 0x1;

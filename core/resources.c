@@ -12,7 +12,7 @@ static uint32_t get_interval_time(struct ch8_resources* resources)
 uint16_t ch8_get_timer(struct ch8_resources* resources)
 {
     uint32_t ticks = SDL_GetTicks();
-    if (SDL_TICKS_PASSED(resources->timer_tick, ticks))
+    if (SDL_TICKS_PASSED(ticks, resources->timer_tick))
     {
         return 0;
     }
@@ -89,23 +89,25 @@ void ch8_execute(
         int quit = 0;
         int user_quit = 0;
         uint32_t last_tick = 0;
-        uint32_t last_keycheck_tick = 0;
+        uint32_t last_clearkey_tick = 0;
         while (!(quit || user_quit))
         {
             uint32_t ticks = SDL_GetTicks();
             uint32_t interval_time = get_interval_time(&resources);
-            if ((ticks - last_tick) < interval_time)
-            {
-                SDL_Delay(interval_time - (ticks - last_tick));
-            }
 
-            if ((ticks - last_keycheck_tick) >= interval_time * 3)
+            if (SDL_TICKS_PASSED(ticks, last_clearkey_tick + interval_time * 25))
             {
+                last_clearkey_tick = ticks;
                 ch8_clear_keys(&resources);
             }
 
+            // if ((ticks - last_tick) < interval_time)
+            if (!SDL_TICKS_PASSED(ticks, last_tick + interval_time))
+            {
+                SDL_Delay(interval_time - (ticks - last_tick));
+            }
+            
             last_tick = ticks;
-            last_keycheck_tick = ticks;
             while(SDL_PollEvent(&e))
             {
                 if(e.type == SDL_QUIT)
